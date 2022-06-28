@@ -1,0 +1,31 @@
+{
+  "name": "node-express-mvc",
+  "version": "1.0.0",
+  "description": "developed by: Mandeep Singh",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon app.js",
+    "start": "node app.js"
+  },
+  "author": "Mandeep Singh",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "@sendgrid/mail": "^7.1.0",
+    "bcryptjs": "^2.4.3",
+    "bson": "^4.0.4",
+    "dotenv": "^8.6.0",
+    "express": "^4.17.1",
+    "http-errors": "^1.8.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.5.6",
+    "morgan": "^1.10.0",
+    "mysql": "^2.18.1",
+    "otp-generator": "^4.0.0",
+    "response-time": "^2.3.2",
+    "winston": "^3.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.3.3"
+  }
+}
