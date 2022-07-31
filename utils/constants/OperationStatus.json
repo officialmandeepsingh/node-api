@@ -1,0 +1,9 @@
+{
+  "category":{
+    "ADD":1,
+    "EDIT":2,
+    "REMOVE":3,
+    "SELECT_ONE":4,
+    "SELECT_ALL":5
+  }
+}
