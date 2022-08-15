@@ -1,12 +1,12 @@
-const { storeValidator } = require('./../../Schema');
+const { storeValidator } = require("./../../Schema");
 const {
   getRecordFromDB,
   updateRecordInDB,
   insertRecordInDB,
-  removeRecordFromDB
-} = require('../../configuration');
-const apiMessages = require('../../utils/constants/ApiMessages');
-const TAG = require('../../utils/constants/Tags');
+  removeRecordFromDB,
+} = require("../../configuration");
+const apiMessages = require("../../utils/constants/ApiMessages");
+const TAG = require("../../utils/constants/Tags");
 
 class StoreModel {
   constructor(userData) {
@@ -25,7 +25,7 @@ class StoreModel {
   addStoreInDb = () => {
     return new Promise((resolve, reject) => {
       let sql =
-        'INSERT INTO tb_store(storeName, storeAddress, emailId, countryCode, phoneNumber, latitude, longitude) VALUES (?,?,?,?,?,?,?)';
+        "INSERT INTO tb_store(storeName, storeAddress, emailId, countryCode, phoneNumber, latitude, longitude, isFreeDeliveryEnable, weight, deliveryRadius, baseDeliveryCharges, weightPerKg) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
       let values = [
         this.userData.storeName,
         this.userData.storeAddress,
@@ -33,7 +33,12 @@ class StoreModel {
         this.userData.countryCode,
         this.userData.phoneNumber,
         this.userData.latitude,
-        this.userData.longitude
+        this.userData.longitude,
+        this.userData.isFreeDeliveryEnable,
+        this.userData.weight || 0,
+        this.userData.deliveryRadius,
+        this.userData.baseDeliveryCharges,
+        this.userData.weightPerKg,
       ];
 
       insertRecordInDB(TAG.STORE.ADD_STORE, sql, values, true)
@@ -50,7 +55,7 @@ class StoreModel {
   updateStoreData = () => {
     return new Promise((resolve, reject) => {
       let sql =
-        'UPDATE tb_store SET storeName=?,storeAddress=?,emailId=?,countryCode=?,phoneNumber=?,latitude=?,longitude=? WHERE storeId=?';
+        "UPDATE tb_store SET storeName=?,storeAddress=?,emailId=?,countryCode=?,phoneNumber=?,latitude=?,longitude=? ,isFreeDeliveryEnable = ?, weight = ?, deliveryRadius = ?, baseDeliveryCharges = ?, weightPerKg = ? WHERE storeId=?";
       let values = [
         this.userData.storeName,
         this.userData.storeAddress,
@@ -59,7 +64,12 @@ class StoreModel {
         this.userData.phoneNumber,
         this.userData.latitude,
         this.userData.longitude,
-        this.userData.storeId
+        this.userData.isFreeDeliveryEnable,
+        this.userData.weight || 0,
+        this.userData.deliveryRadius,
+        this.userData.baseDeliveryCharges,
+        this.userData.weightPerKg,
+        this.userData.storeId,
       ];
 
       updateRecordInDB(TAG.STORE.UPDATE_STORE, sql, values)
@@ -75,12 +85,12 @@ class StoreModel {
   getAllStores = () => {
     return new Promise((resolve, reject) => {
       console.log(this.userData);
-      let sql = 'select * from tb_store';
+      let sql = "select * from tb_store";
       let values = [];
 
       if (this.userData.latitude && this.userData.longitude) {
         sql +=
-          ' WHERE ST_Distance_Sphere(POINT(latitude,longitude), POINT(?,?))*0.001 < 20';
+          " WHERE ST_Distance_Sphere(POINT(latitude,longitude), POINT(?,?))*0.001 < 20";
         values.push(
           Number.parseFloat(this.userData.latitude),
           Number.parseFloat(this.userData.longitude)
@@ -96,6 +106,8 @@ class StoreModel {
               storesList.push(element);
             });
           }
+          storesList.map((element) => delete element["createdAt"]);
+          storesList.map((element) => delete element["updateAt"]);
           resolve(storesList);
         })
         .catch((err) => {
@@ -106,7 +118,7 @@ class StoreModel {
 
   getStore = () => {
     return new Promise((resolve, reject) => {
-      let sql = 'select * from tb_store WHERE storeId=?';
+      let sql = "select * from tb_store WHERE storeId=?";
       let values = [this.userData.storeId];
       getRecordFromDB(TAG.STORE.GET_SINGLE_STORE, sql, values)
         .then((result) => {
@@ -124,7 +136,7 @@ class StoreModel {
 
   removeStore = () => {
     return new Promise((resolve, reject) => {
-      let sql = 'delete from tb_store WHERE storeId=?';
+      let sql = "delete from tb_store WHERE storeId=?";
       let values = [this.userData.storeId];
       removeRecordFromDB(TAG.STORE.DELETE_STORE, sql, values)
         .then((result) => {
@@ -142,7 +154,7 @@ class StoreModel {
         if (storesList && storesList.length > 0) {
           resolve({
             count: storesList.length,
-            stores: storesList
+            stores: storesList,
           });
         } else {
           reject(apiMessages.messages.NOT_DELIVERED_AREA);

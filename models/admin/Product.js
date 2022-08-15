@@ -1,86 +1,121 @@
 const {
-  getRecordFromDB,
-  updateRecordInDB,
-  insertRecordInDB,
-  removeRecordFromDB
-} = require('../../configuration');
-const TAG = require('../../utils/constants/Tags');
-
+	getRecordFromDB,
+	updateRecordInDB,
+	insertRecordInDB,
+	removeRecordFromDB,
+} = require("../../configuration");
+const TAG = require("../../utils/constants/Tags");
+const CONSTANTS = require("../../utils/constants/constants");
 class ProductModel {
-  constructor(userData) {
-    this.userData = { ...userData };
-  }
+	constructor(userData) {
+		this.userData = { ...userData };
+	}
 
-  validate = (validator) => {
-    return new Promise((resolve, reject) => {
-      const validation = validator.validate(this.userData);
-      if (validation.error) {
-        reject(validation.error.message);
-      } else resolve(true);
-    });
-  };
+	validate = (validator) => {
+		return new Promise((resolve, reject) => {
+			const validation = validator.validate(this.userData);
+			if (validation.error) {
+				reject(validation.error.message);
+			} else resolve(true);
+		});
+	};
 
-  addProductInDb = () => {
-    return new Promise((resolve, reject) => {
-      let sql =
-        'INSERT INTO tb_product(prodName, stockQuantity, sellingPrice, actualPrice, barCode, storeId, catId, subCatId, weight, quantityType, weightInKgs, priceMargin) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)';
-      let values = [
-        this.userData.productName,
-        this.userData.stockQuantity,
-        this.userData.sellingPrice,
-        this.userData.actualPrice,
-        this.userData.barCode,
-        this.userData.storeId,
-        this.userData.catId,
-        this.userData.subCatId,
-        this.userData.weight,
-        this.userData.quantityType,
-        this.userData.weight,
-        this.userData.sellingPrice - this.userData.actualPrice
-      ];
+	addProductInDb = () => {
+		return new Promise((resolve, reject) => {
+			let sql =
+				"INSERT INTO tb_product(prodName, stockQuantity, sellingPrice, actualPrice, barCode, storeId, catId, subCatId, weight, quantityType, weightInKgs, priceMargin) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+			let values = [
+				this.userData.prodName,
+				this.userData.stockQuantity,
+				this.userData.sellingPrice,
+				this.userData.actualPrice,
+				this.userData.barCode,
+				this.userData.storeId,
+				this.userData.catId,
+				this.userData.subCatId,
+				this.userData.weight,
+				this.userData.quantityType,
+				this.userData.weight,
+				this.userData.sellingPrice - this.userData.actualPrice,
+			];
 
-      insertRecordInDB(TAG.PRODUCT.ADD_PRODUCT, query, values, true)
-        .then((result) => {
-          this.userData.prodId = result;
-          resolve();
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
-  };
+			insertRecordInDB(TAG.PRODUCT.ADD_PRODUCT, sql, values, true)
+				.then((result) => {
+					this.userData.prodId = result;
+					resolve();
+				})
+				.catch((error) => {
+					reject(error);
+				});
+		});
+	};
 
-  getAllProductList = () => {
-    return new Promise((resolve, reject) => {
-      let sql = 'SELECT * FROM tb_product';
+	getAllProductList = () => {
+		return new Promise((resolve, reject) => {
+			let sql = "SELECT * FROM tb_product";
 
-      getRecordFromDB(TAG.PRODUCT.GET_ALL_PRODUCT, query, null)
-        .then((result) => {
-          const productList = [];
-          if (result.length) {
-            this.json = JSON.parse(JSON.stringify(result));
-            this.json.forEach((element) => {
-              productList.push(element);
-            });
-          }
-          resolve(productList);
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
-  };
+			getRecordFromDB(TAG.PRODUCT.GET_ALL_PRODUCT, sql, null)
+				.then((result) => {
+					let productList = [];
+					if (result.length) {
+						this.json = JSON.parse(JSON.stringify(result));
+						this.json.forEach((element) => {
+							productList.push(element);
+						});
+					}
+					resolve(productList);
+				})
+				.catch((error) => {
+					reject(error);
+				});
+		});
+	};
 
-  getResponse = (productList) => {
-    return new Promise((resolve, reject) => {
-      if (productList)
-        resolve({
-          count: productList.length,
-          productList: productList
-        });
-      else resolve(this.userData);
-    });
-  };
+	deleteProduct = () => {
+		return new Promise((resolve, reject) => {
+			const sql = "delete from tb_product where prodId = ?";
+			removeRecordFromDB(TAG.PRODUCT.DELETE_PRODUCT, sql, this.userData.prodId)
+				.then((result) => {
+					resolve();
+				})
+				.catch((error) => {
+					reject(error);
+				});
+		});
+	};
+
+	updateProduct = () => {
+		return new Promise((resolve, reject) => {
+			const sql = "update tb_product set ? where prodId = ?";
+			removeRecordFromDB(TAG.PRODUCT.UPDATE_PRODUCT, sql, [
+				this.userData,
+				this.userData.prodId,
+			])
+				.then((result) => {
+					resolve();
+				})
+				.catch((error) => {
+					reject(error);
+				});
+		});
+	};
+
+	getResponse = (operation, productList = null) => {
+		return new Promise((resolve, reject) => {
+			if (operation == CONSTANTS.PRODUCT.INSERT) resolve(this.userData);
+			if (
+				operation == CONSTANTS.PRODUCT.REMOVE ||
+				operation == CONSTANTS.PRODUCT.UPDATE
+			)
+				resolve();
+			if (operation == CONSTANTS.PRODUCT.SELECT) {
+				resolve({
+					count: productList.length,
+					productList: productList,
+				});
+			}
+		});
+	};
 }
 
 module.exports = ProductModel;

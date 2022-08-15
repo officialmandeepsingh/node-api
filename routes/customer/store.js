@@ -2,7 +2,8 @@ const { Router } = require('express');
 const {
   getStoreDetailController,
   getAllStoreDetailController,
-  categoryForHome
+  categoryForHomeContoller,
+  categoryDetailsContoller
 } = require('./../../controllers');
 
 const router = Router();
@@ -10,6 +11,7 @@ const router = Router();
 router
   .get('/getAllStore', getAllStoreDetailController)
   .get('/getStore/:storeId', getStoreDetailController)
-  .get('/getCategoryForHome', getStoreDetailController);
+  .get('/getCategoryForHome', categoryForHomeContoller)
+  .get('/getCategoryDetails', categoryDetailsContoller);
 
 module.exports = router;

@@ -4,8 +4,8 @@
  * @requires module:configuration
  */
 
-const Joi = require('@hapi/joi');
-const { dbCon } = require('../configuration');
+const Joi = require("joi");
+const { dbCon } = require("../configuration");
 
 class Comment {
   /**
@@ -42,63 +42,75 @@ class Comment {
    */
   save() {
     return new Promise((res, rej) => {
-      dbCon('comments', async (db, db2) => {
-        try {
-          const comment = await db.insertOne(this.data);
-          this.data['id'] = comment.insertedId;
-          await db2.updateOne({ _id: this.data['movieId'] }, {
-            '$push': {
-              comments: {
-                '$each': [{_id: this.data['id'], username: this.data['username'], text: this.data['text']}],
-                '$slice': -10
+      dbCon(
+        "comments",
+        async (db, db2) => {
+          try {
+            const comment = await db.insertOne(this.data);
+            this.data["id"] = comment.insertedId;
+            await db2.updateOne(
+              { _id: this.data["movieId"] },
+              {
+                $push: {
+                  comments: {
+                    $each: [
+                      {
+                        _id: this.data["id"],
+                        username: this.data["username"],
+                        text: this.data["text"],
+                      },
+                    ],
+                    $slice: -10,
+                  },
+                },
               }
-            }
-          })
-          res();
-        } catch (err) {
-          rej(err);
-        }
-      }, 'movies');
+            );
+            res();
+          } catch (err) {
+            rej(err);
+          }
+        },
+        "movies"
+      );
     });
   }
 
   /**
-   * 
-   * @param {ObjectId} commentId 
+   *
+   * @param {ObjectId} commentId
    * @param {string} text - text to be added
    * @static
    * @returns {Promise}
    */
-  static edit(commentId, text) { 
-
-    return new Promise((res, rej) => { 
-      dbCon('comments', async(db) => { 
+  static edit(commentId, text) {
+    return new Promise((res, rej) => {
+      dbCon("comments", async (db) => {
         try {
-
-          await db.updateOne({ _id: commentId }, { '$set': { text }, '$currentDate': {modifiedAt: true} });
+          await db.updateOne(
+            { _id: commentId },
+            { $set: { text }, $currentDate: { modifiedAt: true } }
+          );
           res();
-          
         } catch (err) {
           rej(err);
         }
       });
     });
-    
-  };
+  }
 
   /**
    * delete a comment from db
-   * @param {ObjectId} commentId 
+   * @param {ObjectId} commentId
    * @static
    * @returns {Promise}
    */
   static delete(commentId) {
-    return new Promise((res, rej) => { 
-      dbCon('comments', async(db) => {
-        try { 
+    return new Promise((res, rej) => {
+      dbCon("comments", async (db) => {
+        try {
           await db.deleteOne({ _id: commentId });
           res();
-        } catch (err) { }
+        } catch (err) {}
       });
     });
   }

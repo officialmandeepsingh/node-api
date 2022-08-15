@@ -1,12 +1,15 @@
-const { dateTimeConvertor } = require('./customer');
+const { dateTimeConvertor } = require("./customer");
 const {
   onboard,
   verifyOtp,
   resendOtp,
   logOut,
   userProfile,
-  categoryForHome
-} = require('./customer');
+  categoryForHomeContoller,
+  categoryDetailsContoller,
+} = require("./customer");
+
+const { addToCartController, getFromCartController } = require("./customer");
 
 const {
   addStoreController,
@@ -23,8 +26,8 @@ const {
   editSubCategoryController,
   deleteSubCategoryController,
   getAllSubCategoryController,
-  getSubCategoryController
-} = require('./admin');
+  getSubCategoryController,
+} = require("./admin");
 
 const {
   addProductController,
@@ -32,8 +35,26 @@ const {
   editProductController,
   getProductByCatController,
   singleProductController,
-  getAllProductController
-} = require('./admin/product');
+  getAllProductController,
+} = require("./admin/product");
+
+const {
+  promoCodeController,
+  billPaymentsController,
+  paymentMethodsController,
+} = require("./customer");
+
+const {
+  addNewAddressController,
+  getAllAddressController,
+  defaultAddressController,
+} = require("./customer");
+
+const {
+  addFavouriteController,
+  removeFavouriteController,
+  viewAllFavouriteController,
+} = require("./customer");
 
 module.exports = {
   // Authentication Controller
@@ -69,5 +90,29 @@ module.exports = {
   editProductController,
   getProductByCatController,
   singleProductController,
-  getAllProductController
+  getAllProductController,
+  categoryForHomeContoller,
+  categoryDetailsContoller,
+
+  // Cart Modules
+  addToCartController,
+  getFromCartController,
+
+  //Bill Payment
+  promoCodeController,
+  billPaymentsController,
+  paymentMethodsController,
+
+  //Address
+  addNewAddressController,
+  getAllAddressController,
+  defaultAddressController,
+
+  //Favourites
+  addFavouriteController,
+  removeFavouriteController,
+  viewAllFavouriteController,
+
+  verifyUserTokenController: require("./TokenController"),
+  bulkUploadController: require("./bulkUploadController"),
 };

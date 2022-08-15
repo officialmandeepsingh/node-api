@@ -1,0 +1,3 @@
+﻿id,storeName,storeAddress,emailId,countryCode,phoneNumber,latitude,longitude,isFreeDeliveryEnable,weight,deliveryRadius,baseDeliveryCharges,weightPerKg
+1,Dmart,Jalandhar,info@dmart.com,91,6239287119,75.254,34.2587,1,10,20,25,20
+2,Metro,Jalandhar,info@metro.com,91,6239287119,75.25748,34.12548,1,15,15,36,10

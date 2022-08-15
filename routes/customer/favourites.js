@@ -1,15 +1,24 @@
 const { Router } = require('express')
 const {
-  addFavourite,
-  removeFavourite,
-  viewAllFavourite
+	addFavouriteController,
+	removeFavouriteController,
+	viewAllFavouriteController,
+	verifyUserTokenController
 } = require('../../controllers')
 
 const router = Router()
 
 router
-// .post('/addFavourite', addFavourite)
-// .post('/removeFavourite', removeFavourite)
-// .get('/viewAllFavourite', viewAllFavourite)
+	.post('/addFavourite', verifyUserTokenController, addFavouriteController)
+	.post(
+		'/removeFavourite',
+		verifyUserTokenController,
+		removeFavouriteController
+	)
+	.get(
+		'/viewAllFavourite',
+		verifyUserTokenController,
+		viewAllFavouriteController
+	)
 
 module.exports = router
