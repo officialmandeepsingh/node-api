@@ -1,5 +1,6 @@
 const morgan = require("morgan");
 const express = require("express");
+const upload = require("express-fileupload");
 const { infoLogger } = require("./../configuration");
 const { json } = require("express");
 const responseTime = require("response-time");
@@ -23,5 +24,7 @@ module.exports = {
     );
     app.use(express.json());
     app.use(responseTime());
+    app.use(upload());
+    app.use(express.urlencoded({ extended: true }));
   },
 };

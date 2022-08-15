@@ -1,3 +1,4 @@
 module.exports = {
-  categoryForHome: require('./getCategoryForHomeController')
+  categoryForHomeContoller: require('./getCategoryForHomeController'),
+  categoryDetailsContoller: require('./getCategoryDetailsController')
 };

@@ -1,19 +1,19 @@
 const {
-  storeModel,
-  categoryModel,
-  subCategoryModel,
-  productModel
-} = require('./admin');
+	storeModel,
+	categoryModel,
+	subCategoryModel,
+	productModel
+} = require('./admin')
 
-const { OnBoard, Otp } = require('./auth');
-const { UserProfile } = require('./userProfile');
+const { OnBoard, Otp } = require('./auth')
+const userProfile = require('./userProfile')
 
 module.exports = {
-  OnBoard: OnBoard,
-  Otp: Otp,
-  UserProfile: UserProfile,
-  StoreModel: storeModel,
-  CategoryModel: categoryModel,
-  SubCategoryModel: subCategoryModel,
-  productModel: productModel
-};
+	OnBoard: OnBoard,
+	Otp: Otp,
+	UserProfile: userProfile,
+	StoreModel: storeModel,
+	CategoryModel: categoryModel,
+	SubCategoryModel: subCategoryModel,
+	productModel: productModel
+}

@@ -1,5 +1,5 @@
 const onBoard = require('./OnBoard');
-const verifyOtpSchema = require('./VerifyOtp');
+const verifyOtpSchema = require('./VerifiyOtp');
 const resendOtp = require('./ResendOtp');
 const userProfile = require('./UserProfile');
 

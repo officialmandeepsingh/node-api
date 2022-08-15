@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 24, 2022 at 08:27 PM
+-- Generation Time: Aug 15, 2022 at 03:28 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.0.19
 
@@ -36,14 +36,27 @@ CREATE TABLE `tb_category` (
   `updateOn` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `tb_category`
+-- Table structure for table `tb_cus_address`
 --
 
-INSERT INTO `tb_category` (`catId`, `catName`, `rank`, `storeId`, `createdAt`, `updateOn`) VALUES
-(1, 'Vegetables', NULL, 1, '2022-07-19 23:33:10', '2022-07-19 23:33:10'),
-(2, 'Fruits', NULL, 1, '2022-07-19 23:33:18', '2022-07-19 23:33:18'),
-(3, 'Diary', NULL, 1, '2022-07-19 23:33:24', '2022-07-19 23:33:24');
+CREATE TABLE `tb_cus_address` (
+  `cusAddressId` int(11) NOT NULL,
+  `cusId` int(5) NOT NULL,
+  `address` tinytext NOT NULL,
+  `addressType` int(1) NOT NULL,
+  `latitude` tinytext NOT NULL,
+  `longitude` tinytext NOT NULL,
+  `landmark` tinytext NOT NULL,
+  `country` tinytext NOT NULL,
+  `pincode` tinytext NOT NULL,
+  `addressName` tinytext NOT NULL,
+  `isDefault` int(1) NOT NULL DEFAULT 0,
+  `createdAt` datetime NOT NULL DEFAULT current_timestamp(),
+  `updateAt` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -83,22 +96,6 @@ CREATE TABLE `tb_product` (
   `updateOn` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `tb_product`
---
-
-INSERT INTO `tb_product` (`prodId`, `prodName`, `stockQuantity`, `sellingPrice`, `actualPrice`, `priceMargin`, `barCode`, `storeId`, `catId`, `subCatId`, `weight`, `quantityType`, `weightInKgs`, `createdAt`, `updateOn`) VALUES
-(1, 'Cabbage', 10, 25.00, 21.50, 3.5, 122, 1, 1, 1, 0, 'kg', 0, '2022-07-20 23:14:34', '2022-07-20 23:58:13'),
-(2, 'Broccoli', 10, 20.00, 21.50, -1.5, 122, 1, 1, 1, 0, 'kg', 0, '2022-07-20 23:29:54', '2022-07-20 23:58:13'),
-(3, 'Iceberg', 10, 35.00, 28.50, 6.5, 122, 1, 1, 1, 0, 'kg', 0, '2022-07-20 23:30:37', '2022-07-20 23:58:13'),
-(4, 'Beans', 10, 35.00, 28.50, 6.5, 122, 1, 1, 2, 0, 'kg', 0, '2022-07-20 23:31:46', '2022-07-20 23:58:13'),
-(5, 'Cucumbers', 10, 48.00, 38.50, 9.5, 122, 1, 1, 2, 0, 'kg', 0, '2022-07-20 23:32:04', '2022-07-20 23:58:13'),
-(6, 'Mangoes', 10, 24.00, 19.50, 4.5, 122, 1, 2, 1, 0, 'kg', 0, '2022-07-20 23:35:39', '2022-07-20 23:58:13'),
-(7, 'Oranges', 10, 70.00, 55.50, 14.5, 122, 1, 2, 1, 0, 'kg', 0, '2022-07-20 23:36:03', '2022-07-20 23:58:13'),
-(8, 'Bananas', 10, 18.00, 15.00, 3, 122, 1, 2, 1, 0, 'kg', 0, '2022-07-20 23:38:13', '2022-07-20 23:58:13'),
-(9, 'Grapes', 10, 38.00, 42.00, -4, 122, 1, 2, 1, 0, 'kg', 0, '2022-07-20 23:38:52', '2022-07-20 23:58:13'),
-(10, 'Cadbury Dairy Milk Silk Pralines Classic and Dark Bars', 10, 680.00, 540.00, 140, 122, 1, 3, 6, 1, 'pcs', 1, '2022-07-20 23:51:05', '2022-07-20 23:51:05');
-
 -- --------------------------------------------------------
 
 --
@@ -114,20 +111,14 @@ CREATE TABLE `tb_store` (
   `phoneNumber` tinytext NOT NULL,
   `latitude` tinytext NOT NULL,
   `longitude` tinytext NOT NULL,
+  `isFreeDeliveryEnable` int(1) NOT NULL DEFAULT 0,
+  `weight` float NOT NULL,
+  `deliveryRadius` int(3) NOT NULL,
+  `baseDeliveryCharges` float NOT NULL,
+  `weightPerKg` int(11) NOT NULL,
   `createdAt` datetime NOT NULL,
   `updateAt` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `tb_store`
---
-
-INSERT INTO `tb_store` (`storeId`, `storeName`, `storeAddress`, `emailId`, `countryCode`, `phoneNumber`, `latitude`, `longitude`, `createdAt`, `updateAt`) VALUES
-(1, 'McDonal', 'Jalandhar', 'info@mcdonal.co', '+91', '6239287119', '65.0615615', '35.1545184', '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-(2, 'Dominos', 'Mumbai', 'info@domino.co', '+91', '6239287119', '72.8567', '19.2307', '0000-00-00 00:00:00', '2022-07-21 23:19:59'),
-(3, 'D Mart', 'Mumbai', 'info@domino.co', '+91', '6239287119', '72.8565', '19.2305', '0000-00-00 00:00:00', '2022-07-21 23:22:03'),
-(4, 'Easy Day', 'Mumbai', 'info@easy.co', '+91', '6239287119', '72.8567', '19.2307', '0000-00-00 00:00:00', '2022-07-24 22:41:17'),
-(5, 'Metro', 'Mumbai', 'info@metro.co', '+91', '6239287119', '72.8567', '19.2307', '0000-00-00 00:00:00', '2022-07-24 22:43:39');
 
 -- --------------------------------------------------------
 
@@ -143,20 +134,6 @@ CREATE TABLE `tb_subcategory` (
   `catId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Dumping data for table `tb_subcategory`
---
-
-INSERT INTO `tb_subcategory` (`subCatId`, `subCatName`, `rank`, `storeId`, `catId`) VALUES
-(1, 'Green Vegs', NULL, 1, 1),
-(2, 'Seasonal Vegs', NULL, 1, 1),
-(3, 'Seasonal Fruits', NULL, 1, 2),
-(4, 'Healthy', NULL, 1, 2),
-(5, 'Milk', NULL, 1, 3),
-(6, 'Choco', NULL, 1, 3),
-(7, 'Sweets', NULL, 1, 3),
-(8, 'Gifts', NULL, 1, 3);
-
 -- --------------------------------------------------------
 
 --
@@ -169,17 +146,10 @@ CREATE TABLE `tb_users` (
   `lastName` tinytext NOT NULL,
   `emailId` tinytext NOT NULL,
   `deviceToken` tinytext NOT NULL,
-  `authToken` tinytext NOT NULL,
+  `authToken` text NOT NULL,
   `phoneNumber` tinytext NOT NULL,
   `countryCode` tinytext NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data for table `tb_users`
---
-
-INSERT INTO `tb_users` (`cusId`, `firstName`, `lastName`, `emailId`, `deviceToken`, `authToken`, `phoneNumber`, `countryCode`) VALUES
-(3, 'Mandeep', 'Singh', 'mandeep@yopmail.com', 'kbuyhg87 -41561156wqf', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXNJZCI6IjMiLCJjb3VudHJ5Q29kZSI6Iis5MSIsInBob25lTnVtYmVyIjoiNjIzOTI4NzExOSIsImRldmljZVRva2VuIjoia2J1eWhnODcgLTQxNTYxMTU2d3FmIiwiZmlyc3ROYW1lIjoiTWFuZGVlcCIsImxhc3ROYW1lIjoiU2luZ2giLCJpYXQiOjE2NTg0MjI3Mjd9.kJjBDJzM3', '6239287119', '+91');
 
 -- --------------------------------------------------------
 
@@ -196,13 +166,6 @@ CREATE TABLE `tb_user_session` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data for table `tb_user_session`
---
-
-INSERT INTO `tb_user_session` (`sessId`, `phoneNumber`, `countryCode`, `deviceToken`, `otpCode`) VALUES
-(5, '6239287119', '+91', 'kbuyhg87 -41561156wqf', 9772);
-
---
 -- Indexes for dumped tables
 --
 
@@ -214,12 +177,20 @@ ALTER TABLE `tb_category`
   ADD KEY `storeId` (`storeId`);
 
 --
+-- Indexes for table `tb_cus_address`
+--
+ALTER TABLE `tb_cus_address`
+  ADD PRIMARY KEY (`cusAddressId`),
+  ADD KEY `FK_cusId` (`cusId`);
+
+--
 -- Indexes for table `tb_favourite`
 --
 ALTER TABLE `tb_favourite`
   ADD PRIMARY KEY (`favId`),
-  ADD KEY `cusId` (`cusId`),
-  ADD KEY `storeId` (`storeId`);
+  ADD UNIQUE KEY `prodId_cusId_storeId` (`prodId`,`cusId`,`storeId`),
+  ADD KEY `tb_favourite_ibfk_1` (`cusId`),
+  ADD KEY `tb_favourite_ibfk_2` (`storeId`);
 
 --
 -- Indexes for table `tb_product`
@@ -264,7 +235,13 @@ ALTER TABLE `tb_user_session`
 -- AUTO_INCREMENT for table `tb_category`
 --
 ALTER TABLE `tb_category`
-  MODIFY `catId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `catId` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tb_cus_address`
+--
+ALTER TABLE `tb_cus_address`
+  MODIFY `cusAddressId` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tb_favourite`
@@ -276,31 +253,31 @@ ALTER TABLE `tb_favourite`
 -- AUTO_INCREMENT for table `tb_product`
 --
 ALTER TABLE `tb_product`
-  MODIFY `prodId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `prodId` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tb_store`
 --
 ALTER TABLE `tb_store`
-  MODIFY `storeId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `storeId` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tb_subcategory`
 --
 ALTER TABLE `tb_subcategory`
-  MODIFY `subCatId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `subCatId` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tb_users`
 --
 ALTER TABLE `tb_users`
-  MODIFY `cusId` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `cusId` int(5) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tb_user_session`
 --
 ALTER TABLE `tb_user_session`
-  MODIFY `sessId` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `sessId` int(5) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
@@ -311,6 +288,12 @@ ALTER TABLE `tb_user_session`
 --
 ALTER TABLE `tb_category`
   ADD CONSTRAINT `tb_category_ibfk_1` FOREIGN KEY (`storeId`) REFERENCES `tb_store` (`storeId`);
+
+--
+-- Constraints for table `tb_cus_address`
+--
+ALTER TABLE `tb_cus_address`
+  ADD CONSTRAINT `FK_cusId` FOREIGN KEY (`cusId`) REFERENCES `tb_users` (`cusId`);
 
 --
 -- Constraints for table `tb_favourite`
