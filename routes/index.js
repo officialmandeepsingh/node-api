@@ -5,6 +5,7 @@ const {
   cusBillPaymentRoutes,
   cusAddressRoutes,
   cusFavouriteRoutes,
+  cusProductsRoutes,
 } = require("./customer");
 
 const {
@@ -23,6 +24,7 @@ module.exports = (app) => {
   app.use("/api/customer", cusBillPaymentRoutes);
   app.use("/api/customer", cusAddressRoutes);
   app.use("/api/customer", cusFavouriteRoutes);
+  app.use("/api/customer", cusProductsRoutes);
 
   // Admin routes for Admin like Admin Web Panel.
   app.use("/api/admin", storeRoutes);

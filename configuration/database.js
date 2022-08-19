@@ -1,23 +1,23 @@
-const mysql = require('mysql');
-const infoLogger = require('./logger');
-require('dotenv').config();
-const apiMessages = require('./../utils/constants/ApiMessages');
+const mysql = require("mysql");
+const infoLogger = require("./logger");
+require("dotenv").config();
+const apiMessages = require("./../utils/constants/ApiMessages");
 
 let database = mysql.createPool({
   connectionLimit: process.env.CONNECTION_LIMIT,
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE
+  database: process.env.DB_DATABASE,
 });
 
 const getRecordFromDB = (TAG, sql, values) => {
   return new Promise((resolve, reject) => {
     const query = database.query(sql, values, (error, result) => {
-      console.log('=> Get_Record :=> ' + TAG, {
+      console.log("=> Get_Record :=> " + TAG, {
         SQL: query.sql,
         ERROR: error,
-        RESULT: result
+        RESULT: result,
       });
 
       if (error) reject(error.sqlMessage);
@@ -29,10 +29,10 @@ const getRecordFromDB = (TAG, sql, values) => {
 const insertRecordInDB = (TAG, sql, values, onlyID = false) => {
   return new Promise((resolve, reject) => {
     const query = database.query(sql, values, (error, result) => {
-      console.log('=> Insert_Record :=> ' + TAG, {
+      console.log("=> Insert_Record :=> " + TAG, {
         SQL: query.sql,
         ERROR: error,
-        RESULT: result
+        RESULT: result,
       });
       if (error) reject(error.sqlMessage);
       else {
@@ -46,10 +46,10 @@ const insertRecordInDB = (TAG, sql, values, onlyID = false) => {
 const updateRecordInDB = (TAG, sql, values, getEmptyResult = false) => {
   return new Promise((resolve, reject) => {
     const query = database.query(sql, values, (error, result) => {
-      console.log('=> Update_Record :=> ' + TAG, {
+      console.log("=> Update_Record :=> " + TAG, {
         SQL: query.sql,
         ERROR: error,
-        RESULT: result
+        RESULT: result,
       });
       if (error) reject(error);
       else if (getEmptyResult) resolve(result);
@@ -59,16 +59,17 @@ const updateRecordInDB = (TAG, sql, values, getEmptyResult = false) => {
   }); //
 };
 
-const removeRecordFromDB = (TAG, sql, values) => {
+const removeRecordFromDB = (TAG, sql, values, getEmptyResult = false) => {
   return new Promise((resolve, reject) => {
     const query = database.query(sql, values, (error, result) => {
-      console.log('=> Remove_Record :=> ' + TAG, {
+      console.log("=> Remove_Record :=> " + TAG, {
         SQL: query.sql,
         ERROR: error,
-        RESULT: result
+        RESULT: result,
       });
       if (error) reject(error.sqlMessage);
       else if (result.affectedRows >= 1) resolve();
+      else if (getEmptyResult) resolve();
       else reject(apiMessages.messages.SOMETHING_WENT_WRONG);
     });
   });
@@ -79,5 +80,5 @@ module.exports = {
   getRecordFromDB,
   insertRecordInDB,
   updateRecordInDB,
-  removeRecordFromDB
+  removeRecordFromDB,
 };

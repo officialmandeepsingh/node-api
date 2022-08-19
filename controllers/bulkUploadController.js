@@ -46,7 +46,7 @@ const bulkUpload = (req, res, next) => {
         .then((storeData) => {
           res.status(200).json({
             status: 200,
-            message: "Stores Added successfully",
+            message: "Products Added successfully",
             data: {
               count: storeData,
             },
@@ -65,7 +65,7 @@ const bulkUpload = (req, res, next) => {
         .then((storeData) => {
           res.status(200).json({
             status: 200,
-            message: "Stores Added successfully",
+            message: "Category Added successfully",
             data: {
               count: storeData,
             },
@@ -84,7 +84,7 @@ const bulkUpload = (req, res, next) => {
         .then((storeData) => {
           res.status(200).json({
             status: 200,
-            message: "Stores Added successfully",
+            message: "SubCategory Added successfully",
             data: {
               count: storeData,
             },

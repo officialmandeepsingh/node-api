@@ -56,6 +56,11 @@ const {
   viewAllFavouriteController,
 } = require("./customer");
 
+const {
+  GetProductListController,
+  ViewProductDetailController,
+} = require("./customer");
+
 module.exports = {
   // Authentication Controller
   onboard,
@@ -112,6 +117,10 @@ module.exports = {
   addFavouriteController,
   removeFavouriteController,
   viewAllFavouriteController,
+
+  //Product
+  GetProductListController,
+  ViewProductDetailController,
 
   verifyUserTokenController: require("./TokenController"),
   bulkUploadController: require("./bulkUploadController"),

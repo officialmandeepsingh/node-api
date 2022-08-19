@@ -4,5 +4,6 @@ module.exports = {
 	cusCartRoutes: require('./cart'),
 	cusBillPaymentRoutes: require('./billPayment'),
 	cusAddressRoutes: require('./address'),
-	cusFavouriteRoutes: require('./favourites')
+	cusFavouriteRoutes: require('./favourites'),
+	cusProductsRoutes: require('./product')
 }

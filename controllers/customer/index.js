@@ -1,56 +1,71 @@
-const dateTimeConvertor = require('./dateTimeConvertor')
-const { onboard, verifyOtp, resendOtp, logOut, userProfile } = require('./auth')
+const dateTimeConvertor = require("./dateTimeConvertor");
+const {
+  onboard,
+  verifyOtp,
+  resendOtp,
+  logOut,
+  userProfile,
+} = require("./auth");
 
 const {
-	categoryForHomeContoller,
-	categoryDetailsContoller
-} = require('./store')
+  categoryForHomeContoller,
+  categoryDetailsContoller,
+} = require("./store");
 
-const { addToCartController, getFromCartController } = require('./cart')
+const { addToCartController, getFromCartController } = require("./cart");
 const {
-	promoCodeController,
-	billPaymentsController,
-	paymentMethodsController
-} = require('./breakdown')
-
-const {
-	addNewAddressController,
-	getAllAddressController,
-	defaultAddressController
-} = require('./address')
+  promoCodeController,
+  billPaymentsController,
+  paymentMethodsController,
+} = require("./breakdown");
 
 const {
-	addFavouriteController,
-	removeFavouriteController,
-	viewAllFavouriteController
-} = require('./favourites')
+  addNewAddressController,
+  getAllAddressController,
+  defaultAddressController,
+} = require("./address");
+
+const {
+  addFavouriteController,
+  removeFavouriteController,
+  viewAllFavouriteController,
+} = require("./favourites");
+
+const {
+  GetProductListController,
+  ViewProductDetailController,
+} = require("./product");
 
 module.exports = {
-	onboard,
-	verifyOtp,
-	resendOtp,
-	logOut,
-	userProfile,
-	dateTimeConvertor,
-	categoryForHomeContoller,
-	categoryDetailsContoller,
+  onboard,
+  verifyOtp,
+  resendOtp,
+  logOut,
+  userProfile,
+  dateTimeConvertor,
+  categoryForHomeContoller,
+  categoryDetailsContoller,
 
-	// Cart Modules
-	addToCartController,
-	getFromCartController,
+  // Cart Modules
+  addToCartController,
+  getFromCartController,
 
-	//Bill Payment
-	promoCodeController,
-	billPaymentsController,
-	paymentMethodsController,
+  //Bill Payment
+  promoCodeController,
+  billPaymentsController,
+  paymentMethodsController,
 
-	//Address
-	addNewAddressController,
-	getAllAddressController,
-	defaultAddressController,
+  //Address
+  addNewAddressController,
+  getAllAddressController,
+  defaultAddressController,
 
-	// Favourites
-	addFavouriteController,
-	removeFavouriteController,
-	viewAllFavouriteController
-}
+  // Favourites
+  addFavouriteController,
+  removeFavouriteController,
+  viewAllFavouriteController,
+
+  // Products
+  GetProductListController,
+  ViewProductDetailController,
+};

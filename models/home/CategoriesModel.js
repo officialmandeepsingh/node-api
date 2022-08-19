@@ -31,6 +31,10 @@ class categoryModel {
 							categoryList.push(element);
 						});
 					}
+					categoryList.map((category) =>{ 
+						delete category["createdAt"]
+					  delete category["updateOn"]
+					});
 					resolve(categoryList);
 				})
 				.catch((err) => reject(err));

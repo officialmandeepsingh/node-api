@@ -1,7 +1,4 @@
-const getProductList = require('./getproductlist')
-const viewproductdetail = require('./viewproductdetail')
-
 module.exports = {
-  getProductList,
-  viewproductdetail
-}
+  GetProductListController: require("./GetProductList"),
+  ViewProductDetailController: require("./ViewProductDetail"),
+};
